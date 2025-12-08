@@ -65,7 +65,8 @@ jobs:
           docker build -t point-service-container .
 
           # 3. ECR 경로로 리태그
-          docker tag point-service-container:latest $IMAGE_URI
+          echo "docker tag point-service-container:latest $IMAGE_URI"
+          docker tag point-service-container:latest ${{ env.IMAGE_URI }}
 
       # ECR로 이미지 푸시 (GHCR push 대체)
       - name: Publish container image to ECR
