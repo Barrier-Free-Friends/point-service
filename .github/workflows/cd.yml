@@ -7,14 +7,15 @@ env:
   # AWS 및 ECR 설정
   AWS_REGION: ap-northeast-2                       # 본인의 AWS 리전으로 변경
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}    # GitHub Secrets에 AWS 계정 ID 추가
-  ECR_REPOSITORY: barrier-free-friends/point-service    # ECR 저장소 이름
+  ECR_REPOSITORY: barrier-free-friends/point-service # ECR 저장소 이름
   VERSION: ${{ github.sha }}                       # Commit SHA를 버전으로 사용
 
   # ⚙️ ECS 서비스 설정 (사전 생성 필요)
   ECS_CLUSTER: barrier-cluster                     # 생성된 ECS 클러스터 이름
-  ECS_SERVICE: point-service-id-service-rrrfj28g     # 생성된 ECS 서비스 이름
+  ECS_SERVICE: point-service-id-service-rrrfj28g    # 생성된 ECS 서비스 이름
   ECS_TASK_DEFINITION: task-definition.json        # Task Definition 템플릿 파일 이름
-  CONTAINER_NAME: point-service-container   # Task Definition 내부의 컨테이너 이름
+  CONTAINER_NAME: point-service-container           # Task Definition 내부의 컨테이너 이름 (아래 JSON 참고)
+
 jobs:
   Deploy:
     name: Build Docker Image and Deploy ECS
@@ -65,8 +66,7 @@ jobs:
           docker build -t point-service-container .
 
           # 3. ECR 경로로 리태그
-          echo "docker tag point-service-container:latest $IMAGE_URI"
-          docker tag point-service-container:latest ${{ env.IMAGE_URI }}
+          docker tag point-service-container:latest $IMAGE_URI
 
       # ECR로 이미지 푸시 (GHCR push 대체)
       - name: Publish container image to ECR
