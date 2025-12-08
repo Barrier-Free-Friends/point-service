@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public enum Type {
-    EARN("포인트 획득"), USE("포인트 사용"), CANCEL("거래 취소");
+    GAIN("포인트 획득"), USE("포인트 사용"), CANCEL_GAIN("포인트 획득 취소"), CANCEL_USE("포인트 사용 취소");
 
     private String description;
 
