@@ -31,18 +31,18 @@ public class Badge extends Auditable {
     private String badgeName;
 
     @Column(nullable = false)
-    private long minPoints;
+    private long minPoint;
 
     @Column(nullable = false)
-    private long maxPoints;
+    private long maxPoint;
 
     private String descriptions;
     private String imgUrl;
 
     @Builder
-    public Badge(String badgeName, long minPoints, long maxPoints, String descriptions, String imgUrl, CheckPointGap checkPointGap) {
+    public Badge(String badgeName, long minPoint, long maxPoint, String descriptions, String imgUrl, CheckPointGap checkPointGap) {
         this.badgeName = badgeName;
-        setMinAndMaxPoints(minPoints, maxPoints, checkPointGap);
+        setMinAndMaxPoints(minPoint, maxPoint, checkPointGap);
         this.descriptions = descriptions;
         this.imgUrl = imgUrl;
     }
@@ -60,7 +60,7 @@ public class Badge extends Auditable {
         if (!checkPointGap.validPointGap(min, max)) {
             throw new CustomException(BadgeErrorCode.INVALID_POINT_GAP);
         }
-        this.minPoints = min;
-        this.maxPoints = max;
+        this.minPoint = min;
+        this.maxPoint = max;
     }
 }
