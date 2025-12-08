@@ -12,4 +12,10 @@ public class RewardSnapshot {
     private String rewardName;
     private int acquiredPrice;
     private String description;
+
+    RewardSnapshot(String rewardName, int acquiredPrice, String description) {
+        this.rewardName = rewardName;
+        this.acquiredPrice = acquiredPrice;
+        this.description = description;
+    }
 }
