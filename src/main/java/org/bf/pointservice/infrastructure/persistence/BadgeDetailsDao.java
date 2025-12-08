@@ -2,9 +2,12 @@ package org.bf.pointservice.infrastructure.persistence;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.bf.pointservice.domain.entity.Badge;
 import org.bf.pointservice.domain.entity.QBadge;
 import org.bf.pointservice.domain.repository.BadgeDetailsRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -26,5 +29,19 @@ public class BadgeDetailsDao implements BadgeDetailsRepository {
                 .fetchFirst();
 
         return fetchOne != null;
+    }
+
+    @Override
+    public Optional<Badge> findByPointRange(long totalPoint) {
+        QBadge qBadge = QBadge.badge;
+
+        Badge foundBadge = queryFactory
+                .selectFrom(qBadge)
+                .where(
+                        qBadge.minPoint.loe(totalPoint).and(qBadge.maxPoint.goe(totalPoint))
+                )
+                .fetchOne();
+
+        return Optional.ofNullable(foundBadge);
     }
 }

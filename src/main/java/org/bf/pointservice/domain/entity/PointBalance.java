@@ -36,7 +36,6 @@ public class PointBalance extends Auditable {
     @Column(nullable = false)
     private long totalAccumulatedBalance;
 
-    @Column(nullable = false)
     private UUID currentBadgeId;
 
     @Builder
