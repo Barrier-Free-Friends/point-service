@@ -13,8 +13,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          submodules: recursive // 서브모듈의 하위 폴더까지 모두 가져오기
-          token: ${{ secrets.MY_GITHUB_TOKEN }} // MY_GITHUB_TOKEN은 깃허브 환경 변수 설정에 Repository Secret으로 추가
+          submodules: recursive
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
           fetch-depth: 0
 
 
