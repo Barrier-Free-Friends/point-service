@@ -13,6 +13,6 @@ public class CheckPointGapImpl implements CheckPointGap {
 
     @Override
     public boolean validPointGap(long minPoint, long maxPoint) {
-        return badgeDetailsRepository.existsByPointRangeOverLap(minPoint, maxPoint);
+        return !badgeDetailsRepository.existsByPointRangeOverLap(minPoint, maxPoint);
     }
 }
