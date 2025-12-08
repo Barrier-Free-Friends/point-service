@@ -62,10 +62,10 @@ jobs:
           # 2. Spring Boot JAR 파일 빌드 및 Docker 이미지 빌드
           chmod +x gradlew
           ./gradlew bootJar
-          docker build -t user-service-container .
+          docker build -t point-service-container .
 
           # 3. ECR 경로로 리태그
-          docker tag user-service-container:latest $IMAGE_URI
+          docker tag point-service-container:latest $IMAGE_URI
 
       # ECR로 이미지 푸시 (GHCR push 대체)
       - name: Publish container image to ECR
