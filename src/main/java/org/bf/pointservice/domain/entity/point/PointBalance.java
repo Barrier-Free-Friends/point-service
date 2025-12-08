@@ -1,4 +1,4 @@
-package org.bf.pointservice.domain.entity;
+package org.bf.pointservice.domain.entity.point;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bf.global.domain.Auditable;
 import org.bf.global.infrastructure.exception.CustomException;
-import org.bf.pointservice.domain.exception.PointBalanceErrorCode;
+import org.bf.pointservice.domain.exception.point.PointBalanceErrorCode;
 
 import java.util.UUID;
 

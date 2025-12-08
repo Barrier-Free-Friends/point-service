@@ -1,4 +1,4 @@
-package org.bf.pointservice.domain.exception;
+package org.bf.pointservice.domain.exception.point;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

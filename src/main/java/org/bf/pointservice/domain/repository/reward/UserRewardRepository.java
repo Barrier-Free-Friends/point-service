@@ -1,6 +1,6 @@
-package org.bf.pointservice.domain.repository;
+package org.bf.pointservice.domain.repository.reward;
 
-import org.bf.pointservice.domain.entity.UserReward;
+import org.bf.pointservice.domain.entity.reward.UserReward;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

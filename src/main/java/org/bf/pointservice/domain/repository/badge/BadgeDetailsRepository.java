@@ -1,6 +1,6 @@
-package org.bf.pointservice.domain.repository;
+package org.bf.pointservice.domain.repository.badge;
 
-import org.bf.pointservice.domain.entity.Badge;
+import org.bf.pointservice.domain.entity.badge.Badge;
 
 import java.util.Optional;
 

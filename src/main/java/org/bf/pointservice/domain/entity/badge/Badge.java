@@ -1,4 +1,4 @@
-package org.bf.pointservice.domain.entity;
+package org.bf.pointservice.domain.entity.badge;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bf.global.domain.Auditable;
 import org.bf.global.infrastructure.exception.CustomException;
-import org.bf.pointservice.domain.exception.BadgeErrorCode;
+import org.bf.pointservice.domain.exception.badge.BadgeErrorCode;
 import org.bf.pointservice.domain.service.CheckPointGap;
 
 import java.util.UUID;

@@ -1,7 +1,7 @@
 package org.bf.pointservice.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.bf.pointservice.domain.repository.BadgeDetailsRepository;
+import org.bf.pointservice.domain.repository.badge.BadgeDetailsRepository;
 import org.bf.pointservice.domain.service.CheckPointGap;
 import org.springframework.stereotype.Service;
 

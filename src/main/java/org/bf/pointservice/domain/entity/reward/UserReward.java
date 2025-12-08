@@ -1,4 +1,4 @@
-package org.bf.pointservice.domain.entity;
+package org.bf.pointservice.domain.entity.reward;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bf.global.infrastructure.exception.CustomException;
-import org.bf.pointservice.domain.exception.RewardErrorCode;
+import org.bf.pointservice.domain.exception.reward.RewardErrorCode;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

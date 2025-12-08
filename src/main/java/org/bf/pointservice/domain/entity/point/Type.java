@@ -1,4 +1,4 @@
-package org.bf.pointservice.domain.entity;
+package org.bf.pointservice.domain.entity.point;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

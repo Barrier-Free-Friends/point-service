@@ -1,8 +1,8 @@
 package org.bf.pointservice.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.bf.pointservice.domain.entity.Badge;
-import org.bf.pointservice.domain.repository.BadgeDetailsRepository;
+import org.bf.pointservice.domain.entity.badge.Badge;
+import org.bf.pointservice.domain.repository.badge.BadgeDetailsRepository;
 import org.bf.pointservice.domain.service.BadgeUpdateService;
 import org.springframework.stereotype.Service;
 

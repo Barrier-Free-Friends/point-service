@@ -1,4 +1,4 @@
-package org.bf.pointservice.domain.entity;
+package org.bf.pointservice.domain.entity.point;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bf.global.domain.Auditable;
 import org.bf.global.infrastructure.exception.CustomException;
-import org.bf.pointservice.domain.exception.PointTransactionErrorCode;
+import org.bf.pointservice.domain.exception.point.PointTransactionErrorCode;
 
 import java.util.UUID;
 

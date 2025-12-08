@@ -1,6 +1,6 @@
-package org.bf.pointservice.domain.repository;
+package org.bf.pointservice.domain.repository.point;
 
-import org.bf.pointservice.domain.entity.PointBalance;
+import org.bf.pointservice.domain.entity.point.PointBalance;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

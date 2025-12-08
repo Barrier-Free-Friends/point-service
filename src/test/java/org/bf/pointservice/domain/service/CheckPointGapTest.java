@@ -1,7 +1,7 @@
 package org.bf.pointservice.domain.service;
 
-import org.bf.pointservice.domain.entity.Badge;
-import org.bf.pointservice.domain.repository.BadgeRepository;
+import org.bf.pointservice.domain.entity.badge.Badge;
+import org.bf.pointservice.domain.repository.badge.BadgeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

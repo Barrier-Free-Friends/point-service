@@ -1,4 +1,4 @@
-package org.bf.pointservice.domain.entity;
+package org.bf.pointservice.domain.entity.reward;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
