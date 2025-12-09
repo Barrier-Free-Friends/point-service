@@ -15,32 +15,18 @@ public class BadgeDetailsDao implements BadgeDetailsRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    @Override
-    public boolean existsByPointRangeOverLap(long minPoint, long maxPoint) {
-        QBadge qBadge = QBadge.badge;
-
-        // 겹치는 뱃지 구간이 존재하는지 확인
-        Integer fetchOne = queryFactory
-                .selectOne()
-                .from(qBadge)
-                .where(
-                        qBadge.minPoint.loe(maxPoint).and(qBadge.maxPoint.goe(minPoint))
-                )
-                .fetchFirst();
-
-        return fetchOne != null;
-    }
-
+    /**
+     * 누적 포인트(totalPoint)에 해당하는 가장 높은 등급의 뱃지를 탐색
+     */
     @Override
     public Optional<Badge> findByPointRange(long totalPoint) {
         QBadge qBadge = QBadge.badge;
 
         Badge foundBadge = queryFactory
                 .selectFrom(qBadge)
-                .where(
-                        qBadge.minPoint.loe(totalPoint).and(qBadge.maxPoint.goe(totalPoint))
-                )
-                .fetchOne();
+                .where(qBadge.minPoint.loe(totalPoint))
+                .orderBy(qBadge.minPoint.desc())
+                .fetchFirst();
 
         return Optional.ofNullable(foundBadge);
     }

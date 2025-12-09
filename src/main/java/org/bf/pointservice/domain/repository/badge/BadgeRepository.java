@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface BadgeRepository extends JpaRepository<Badge, UUID> {
     Optional<Badge> findByBadgeId(UUID badgeId);
+    boolean existsByMinPoint(long minPoint);
 }

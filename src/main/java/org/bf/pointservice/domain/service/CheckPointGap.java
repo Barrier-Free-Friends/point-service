@@ -5,5 +5,5 @@ package org.bf.pointservice.domain.service;
  * - 뱃지 유지 구간이 기존에 있는 뱃지와 겹치지 않도록 설정
  * */
 public interface CheckPointGap {
-    boolean validPointGap(long minPoint, long maxPoint);
+    boolean validPointGap(long minPoint);
 }
