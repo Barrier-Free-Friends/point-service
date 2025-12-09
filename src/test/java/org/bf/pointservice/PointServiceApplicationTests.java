@@ -1,4 +1,4 @@
-package org.bf.pointservice.pointservice;
+package org.bf.pointservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
