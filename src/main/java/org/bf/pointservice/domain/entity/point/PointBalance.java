@@ -48,7 +48,7 @@ public class PointBalance extends Auditable {
     /**
      * 포인트 획득 시 현재 잔액, 누적 포인트 업데이트
      * */
-    void gainPoints(int points) {
+    public void gainPoints(int points) {
         if (points < 0) {
             throw new CustomException(PointBalanceErrorCode.INVALID_GAIN_POINT);
         }
@@ -59,7 +59,7 @@ public class PointBalance extends Auditable {
     /**
      * 포인트 사용 시 현재 잔액 업데이트
      * */
-    void usePoints(int points) {
+    public void usePoints(int points) {
         if (points < 0) {
             throw new CustomException(PointBalanceErrorCode.INVALID_USE_POINT);
         }
@@ -72,7 +72,7 @@ public class PointBalance extends Auditable {
     /**
      * 포인트 획득 취소
      * */
-    void cancelGain(int points) {
+    public void cancelGain(int points) {
         if (points < 0) {
             throw new CustomException(PointBalanceErrorCode.INVALID_GAIN_POINT);
         }
@@ -89,7 +89,7 @@ public class PointBalance extends Auditable {
     /**
      * 포인트 사용 취소
      * */
-    void cancelUse(int points) {
+    public void cancelUse(int points) {
         if (points < 0) {
             throw new CustomException(PointBalanceErrorCode.INVALID_USE_POINT);
         }
@@ -99,7 +99,7 @@ public class PointBalance extends Auditable {
     /**
      * 현재 보유한 뱃지 업데이트
      * */
-    void updateBadge(UUID badgeId) {
+    public void updateBadge(UUID badgeId) {
         if (badgeId != null && !this.currentBadgeId.equals(badgeId)) {
             this.currentBadgeId = badgeId;
         }

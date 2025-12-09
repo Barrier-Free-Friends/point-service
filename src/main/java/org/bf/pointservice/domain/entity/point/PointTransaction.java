@@ -28,6 +28,8 @@ public class PointTransaction extends Auditable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID transactionId;
 
+    private UUID userId;
+
     private String sourceTable;
 
     @Column(nullable = false)
@@ -47,7 +49,8 @@ public class PointTransaction extends Auditable {
     private boolean cancelled;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private PointTransaction(String sourceTable, UUID sourceId, Type type, int amount, int afterBalance, UUID originalTransactionId, boolean cancelled) {
+    private PointTransaction(UUID userId, String sourceTable, UUID sourceId, Type type, int amount, int afterBalance, UUID originalTransactionId, boolean cancelled) {
+        this.userId = userId;
         this.sourceTable = sourceTable;
         this.sourceId = sourceId;
         this.type = type;
@@ -57,11 +60,12 @@ public class PointTransaction extends Auditable {
         this.cancelled = cancelled;
     }
 
-    public static PointTransaction createOriginal(String sourceTable, UUID sourceId, Type type, int amount, int afterBalance) {
+    public static PointTransaction createOriginal(UUID userId, String sourceTable, UUID sourceId, Type type, int amount, int afterBalance) {
         if (type == Type.CANCEL_GAIN || type == Type.CANCEL_USE) {
             throw new CustomException(PointTransactionErrorCode.INVALID_TYPE_OF_ORIGINAL);
         }
         return PointTransaction.builder()
+                .userId(userId)
                 .sourceTable(sourceTable)
                 .sourceId(sourceId)
                 .type(type)
@@ -71,11 +75,12 @@ public class PointTransaction extends Auditable {
                 .build();
     }
 
-    public static PointTransaction createCancel(String sourceTable, UUID sourceId, Type type, int amount, int afterBalance, UUID originalTransactionId) {
+    public static PointTransaction createCancel(UUID userId, String sourceTable, UUID sourceId, Type type, int amount, int afterBalance, UUID originalTransactionId) {
         if (type == Type.GAIN || type == Type.USE) {
             throw new CustomException(PointTransactionErrorCode.INVALID_TYPE_OF_CANCEL);
         }
         return PointTransaction.builder()
+                .userId(userId)
                 .sourceTable(sourceTable)
                 .sourceId(sourceId)
                 .type(type)
