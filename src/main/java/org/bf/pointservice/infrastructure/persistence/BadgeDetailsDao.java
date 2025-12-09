@@ -3,7 +3,7 @@ package org.bf.pointservice.infrastructure.persistence;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.bf.pointservice.domain.entity.badge.Badge;
-import org.bf.pointservice.domain.entity.QBadge;
+import org.bf.pointservice.domain.entity.badge.QBadge;
 import org.bf.pointservice.domain.repository.badge.BadgeDetailsRepository;
 import org.springframework.stereotype.Repository;
 
