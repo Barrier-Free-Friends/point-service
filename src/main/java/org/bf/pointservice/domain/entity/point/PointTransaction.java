@@ -91,6 +91,10 @@ public class PointTransaction extends Auditable {
                 .build();
     }
 
+    public void cancel() {
+        this.cancelled = true;
+    }
+
     private void setAmount(int amount) {
         if (amount < 0) {
             throw new CustomException(PointTransactionErrorCode.INVALID_AMOUNT);

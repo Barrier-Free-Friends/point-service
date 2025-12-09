@@ -76,13 +76,7 @@ public class PointBalance extends Auditable {
         if (points < 0) {
             throw new CustomException(PointBalanceErrorCode.INVALID_GAIN_POINT);
         }
-        if (this.currentBalance -  points < 0) {
-            throw new CustomException(PointBalanceErrorCode.INVALID_POINT_BALANCE);
-        }
         this.currentBalance -= points;
-        if (this.totalAccumulatedBalance - points < 0) {
-            throw new CustomException(PointBalanceErrorCode.INVALID_TOTAL_POINT);
-        }
         this.totalAccumulatedBalance -= points;
     }
 
