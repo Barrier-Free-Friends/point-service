@@ -7,5 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface RewardRepository extends JpaRepository<Reward, UUID> {
-    Optional<Reward> findByRewardId(UUID rewardId);
+    Optional<Reward> findByRewardIdAndDeletedAtIsNull(UUID rewardId);
 }

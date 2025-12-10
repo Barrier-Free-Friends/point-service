@@ -38,7 +38,7 @@ public class PointGainServiceImpl implements PointGainService {
     }
 
     private PointBalance getOrCreateBalance(UUID userId) {
-        return pointBalanceRepository.findByUserId(userId)
+        return pointBalanceRepository.findByUserIdAndDeletedAtIsNull(userId)
                 .orElseGet(() -> {
                     PointBalance newBalance = PointBalance.builder().userId(userId).build();
                     return pointBalanceRepository.save(newBalance);

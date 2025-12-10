@@ -31,13 +31,13 @@ public class PointUseServiceImpl implements PointUseService {
 
     @Override
     public void usePoints(UUID userId, int points, String sourceTable, UUID sourceId) {
-        PointBalance pointBalance = pointBalanceRepository.findByUserId(userId).orElseThrow(() -> new CustomException(PointBalanceErrorCode.POINT_BALANCE_NOT_FOUND));
+        PointBalance pointBalance = pointBalanceRepository.findByUserIdAndDeletedAtIsNull(userId).orElseThrow(() -> new CustomException(PointBalanceErrorCode.POINT_BALANCE_NOT_FOUND));
 
         // 포인트 사용
         pointBalance.usePoints(points);
 
         // 포인트를 사용하여 획득한 보상 추가
-        Reward reward = rewardRepository.findByRewardId(sourceId).orElseThrow(() -> new CustomException(RewardErrorCode.REWARD_NOT_FOUND));
+        Reward reward = rewardRepository.findByRewardIdAndDeletedAtIsNull(sourceId).orElseThrow(() -> new CustomException(RewardErrorCode.REWARD_NOT_FOUND));
         addReward(userId, reward);
 
         // 포인트 사용 내역 저장

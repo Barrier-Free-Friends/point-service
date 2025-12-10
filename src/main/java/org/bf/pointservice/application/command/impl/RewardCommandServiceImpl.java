@@ -41,7 +41,7 @@ public class RewardCommandServiceImpl implements RewardCommandService {
      * */
     @Override
     public RewardResponse updateReward(UUID rewardId, RewardUpdateRequest request) {
-        Reward reward = rewardRepository.findByRewardId(rewardId).orElseThrow(() -> new CustomException(RewardErrorCode.REWARD_NOT_FOUND));
+        Reward reward = rewardRepository.findByRewardIdAndDeletedAtIsNull(rewardId).orElseThrow(() -> new CustomException(RewardErrorCode.REWARD_NOT_FOUND));
         if (request.rewardName() != null && !request.rewardName().isEmpty()) {
             reward.updateName(request.rewardName());
         }
@@ -59,7 +59,7 @@ public class RewardCommandServiceImpl implements RewardCommandService {
      * */
     @Override
     public void deleteReward(UUID rewardId) {
-        Reward reward = rewardRepository.findByRewardId(rewardId).orElseThrow(() -> new CustomException(RewardErrorCode.REWARD_NOT_FOUND));
+        Reward reward = rewardRepository.findByRewardIdAndDeletedAtIsNull(rewardId).orElseThrow(() -> new CustomException(RewardErrorCode.REWARD_NOT_FOUND));
         reward.softDelete(securityUtils.getCurrentUsername());
     }
 }

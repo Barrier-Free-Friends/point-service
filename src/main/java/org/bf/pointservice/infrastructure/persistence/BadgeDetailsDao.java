@@ -24,7 +24,10 @@ public class BadgeDetailsDao implements BadgeDetailsRepository {
 
         Badge foundBadge = queryFactory
                 .selectFrom(qBadge)
-                .where(qBadge.minPoint.loe(totalPoint))
+                .where(
+                        qBadge.minPoint.loe(totalPoint),
+                        qBadge.deletedAt.isNull()
+                )
                 .orderBy(qBadge.minPoint.desc())
                 .fetchFirst();
 

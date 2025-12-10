@@ -43,7 +43,7 @@ public class BadgeCommandServiceImpl implements BadgeCommandService {
 
     @Override
     public BadgeResponse updateBadge(UUID badgeId, BadgeUpdateRequest request) {
-        Badge badge = badgeRepository.findByBadgeId(badgeId).orElseThrow(
+        Badge badge = badgeRepository.findByBadgeIdAndDeletedAtIsNull(badgeId).orElseThrow(
                 () -> new CustomException(BadgeErrorCode.BADGE_NOT_FOUND)
         );
         if (request.badgeName() != null && !request.badgeName().equals(badge.getBadgeName()) && !request.badgeName().isBlank()) {
@@ -66,7 +66,7 @@ public class BadgeCommandServiceImpl implements BadgeCommandService {
 
     @Override
     public void deleteBadge(UUID badgeId) {
-        Badge badge = badgeRepository.findByBadgeId(badgeId).orElseThrow(
+        Badge badge = badgeRepository.findByBadgeIdAndDeletedAtIsNull(badgeId).orElseThrow(
                 () -> new CustomException(BadgeErrorCode.BADGE_NOT_FOUND)
         );
         badge.softDelete(securityUtils.getCurrentUsername());
