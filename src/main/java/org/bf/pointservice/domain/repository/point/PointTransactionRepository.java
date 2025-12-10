@@ -9,6 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface PointTransactionRepository extends JpaRepository<PointTransaction, UUID> {
-    Optional<PointTransaction> findByTransactionId(UUID transactionId);
-    Page<PointTransaction> findByUserId(UUID userId, Pageable pageable);
+    Optional<PointTransaction> findByTransactionIdAndDeletedAtIsNull(UUID transactionId);
+    Page<PointTransaction> findByUserIdAndDeletedAtIsNull(UUID userId, Pageable pageable);
 }

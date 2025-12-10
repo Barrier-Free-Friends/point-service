@@ -45,10 +45,40 @@ public class Badge extends Auditable {
     }
 
     /**
-     * 뱃지 유지를 위한 최소/최대 포인트 조건 검증
+     * 뱃지 이름 수정
+     * */
+    public void updateBadgeName(String badgeName) {
+        this.badgeName = badgeName;
+    }
+
+    /**
+     * 뱃지 설명 수정
+     * */
+    public void updateDescriptions(String descriptions) {
+        this.descriptions = descriptions;
+    }
+
+    /**
+     * 뱃지 사진 수정
+     * */
+    public void updateImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    /**
+     * 뱃지 획득 조건 업데이트
+     * */
+    public void updateMinPoint(long minPoint, CheckPointGap checkPointGap) {
+        setMinPoint(minPoint, checkPointGap);
+    }
+
+    /**
+     * 뱃지 획득 조건 검증
      * */
     private void setMinPoint(long min, CheckPointGap checkPointGap) {
-        checkPointGap.validPointGap(min);
+        if (!checkPointGap.validPointGap(min)) {
+            throw new CustomException(BadgeErrorCode.INVALID_MIN_POINT);
+        }
         if (min < 0) {
             throw new CustomException(BadgeErrorCode.INVALID_POINT_MINUS);
         }

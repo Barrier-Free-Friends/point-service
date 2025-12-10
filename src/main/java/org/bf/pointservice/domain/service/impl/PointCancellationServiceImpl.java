@@ -29,7 +29,7 @@ public class PointCancellationServiceImpl implements PointCancellationService {
 
     @Override
     public void cancel(UUID transactionId) {
-        PointTransaction pointTransaction = pointTransactionRepository.findByTransactionId(transactionId).orElseThrow(
+        PointTransaction pointTransaction = pointTransactionRepository.findByTransactionIdAndDeletedAtIsNull(transactionId).orElseThrow(
                 () -> new CustomException(PointTransactionErrorCode.POINT_TRANSACTION_NOT_FOUND)
         );
 
@@ -85,7 +85,7 @@ public class PointCancellationServiceImpl implements PointCancellationService {
      * 거래 내역의 userId로 해당 유저의 현재 잔액 확인
      * */
     private PointBalance findBalance(UUID userId) {
-        return pointBalanceRepository.findByUserId(userId).orElseThrow(
+        return pointBalanceRepository.findByUserIdAndDeletedAtIsNull(userId).orElseThrow(
                 () -> new CustomException(PointBalanceErrorCode.POINT_BALANCE_NOT_FOUND)
         );
     }

@@ -10,5 +10,5 @@ import java.util.UUID;
 
 public interface PointBalanceRepository extends JpaRepository<PointBalance, UUID> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    Optional<PointBalance> findByUserId(UUID userId);
+    Optional<PointBalance> findByUserIdAndDeletedAtIsNull(UUID userId);
 }

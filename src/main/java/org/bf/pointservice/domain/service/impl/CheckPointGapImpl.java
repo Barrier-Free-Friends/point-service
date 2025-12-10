@@ -13,6 +13,6 @@ public class CheckPointGapImpl implements CheckPointGap {
 
     @Override
     public boolean validPointGap(long minPoint) {
-        return !badgeRepository.existsByMinPoint(minPoint);
+        return !badgeRepository.existsByMinPointAndDeletedAtIsNull(minPoint);
     }
 }

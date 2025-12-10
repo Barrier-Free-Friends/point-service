@@ -35,7 +35,7 @@ public class PointQueryServiceImpl implements PointQueryService {
     public PointBalanceResponse getCurrentBalance() {
         UUID currentUserId = securityUtils.getCurrentUserId();
 
-        Optional<PointBalance> optionalBalance = pointBalanceRepository.findByUserId(currentUserId);
+        Optional<PointBalance> optionalBalance = pointBalanceRepository.findByUserIdAndDeletedAtIsNull(currentUserId);
 
         if (optionalBalance.isEmpty()) {
             // 엔티티가 없는 경우, DTO를 '잔액 0' 상태로 직접 구성하여 반환
@@ -44,7 +44,7 @@ public class PointQueryServiceImpl implements PointQueryService {
 
         PointBalance pointBalance = optionalBalance.get();
 
-        Badge badge = badgeRepository.findByBadgeId(pointBalance.getCurrentBadgeId())
+        Badge badge = badgeRepository.findByBadgeIdAndDeletedAtIsNull(pointBalance.getCurrentBadgeId())
                 .orElseThrow(() -> new CustomException(BadgeErrorCode.BADGE_NOT_FOUND));
 
         return PointBalanceResponse.from(pointBalance, badge);
@@ -52,7 +52,7 @@ public class PointQueryServiceImpl implements PointQueryService {
 
     @Override
     public Page<PointTransactionResponse> getTransactions(Pageable pageable) {
-        Page<PointTransaction> pointTransactions = pointTransactionRepository.findByUserId(securityUtils.getCurrentUserId(), pageable);
+        Page<PointTransaction> pointTransactions = pointTransactionRepository.findByUserIdAndDeletedAtIsNull(securityUtils.getCurrentUserId(), pageable);
         return pointTransactions.map(PointTransactionResponse::from);
     }
 }
