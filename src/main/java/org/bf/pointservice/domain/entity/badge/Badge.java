@@ -38,6 +38,9 @@ public class Badge extends Auditable {
 
     @Builder
     public Badge(String badgeName, long minPoint, String descriptions, String imgUrl, CheckPointGap checkPointGap) {
+        if (!checkPointGap.validPointGap(minPoint)) {
+            throw new CustomException(BadgeErrorCode.INVALID_MIN_POINT);
+        }
         this.badgeName = badgeName;
         setMinPoint(minPoint, checkPointGap);
         this.descriptions = descriptions;
