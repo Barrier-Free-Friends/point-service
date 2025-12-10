@@ -45,18 +45,18 @@ public class Reward extends Auditable {
         this.price = price;
     }
 
-    void updateName(String rewardName) {
+    public void updateName(String rewardName) {
         if (rewardName == null || rewardName.trim().isEmpty()) {
             throw new CustomException(RewardErrorCode.INVALID_REWARD_NAME);
         }
         this.rewardName = rewardName;
     }
 
-    void updatePrice(int price) {
+    public void updatePrice(int price) {
         setPrice(price);
     }
 
-    void updateDescriptions(String descriptions) {
+    public void updateDescriptions(String descriptions) {
         this.descriptions = descriptions;
     }
 }

@@ -11,7 +11,7 @@ public interface BadgeCommandService {
     BadgeResponse createBadge(BadgeCreateRequest request);
 
     // 뱃지 정보 수정
-    BadgeResponse updateBadge(BadgeUpdateRequest request);
+    BadgeResponse updateBadge(UUID badgeId, BadgeUpdateRequest request);
 
     // 뱃지 삭제
     void deleteBadge(UUID badgeId);

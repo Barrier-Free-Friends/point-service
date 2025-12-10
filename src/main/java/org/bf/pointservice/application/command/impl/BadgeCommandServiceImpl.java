@@ -42,8 +42,8 @@ public class BadgeCommandServiceImpl implements BadgeCommandService {
     }
 
     @Override
-    public BadgeResponse updateBadge(BadgeUpdateRequest request) {
-        Badge badge = badgeRepository.findByBadgeId(request.badgeId()).orElseThrow(
+    public BadgeResponse updateBadge(UUID badgeId, BadgeUpdateRequest request) {
+        Badge badge = badgeRepository.findByBadgeId(badgeId).orElseThrow(
                 () -> new CustomException(BadgeErrorCode.BADGE_NOT_FOUND)
         );
         if (request.badgeName() != null && !request.badgeName().equals(badge.getBadgeName()) && !request.badgeName().isBlank()) {
