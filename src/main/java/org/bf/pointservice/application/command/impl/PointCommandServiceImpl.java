@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.bf.global.security.SecurityUtils;
 import org.bf.pointservice.application.command.PointCommandService;
 import org.bf.pointservice.application.dto.PointGainRequest;
-import org.bf.pointservice.application.dto.PointUseRequest;
 import org.bf.pointservice.domain.service.PointCancellationService;
 import org.bf.pointservice.domain.service.PointGainService;
-import org.bf.pointservice.domain.service.PointUseService;
+import org.bf.pointservice.domain.service.RewardPurchaseService;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,7 +17,7 @@ public class PointCommandServiceImpl implements PointCommandService {
 
     private final SecurityUtils securityUtils;
     private final PointGainService pointGainService;
-    private final PointUseService pointUseService;
+    private final RewardPurchaseService rewardPurchaseService;
     private final PointCancellationService pointCancellationService;
 
     @Override
@@ -32,13 +31,8 @@ public class PointCommandServiceImpl implements PointCommandService {
     }
 
     @Override
-    public void usePoint(PointUseRequest request) {
-        pointUseService.usePoints(
-                securityUtils.getCurrentUserId(),
-                request.points(),
-                request.sourceTable(),
-                request.sourceId()
-        );
+    public void usePoint(UUID rewardId) {
+        rewardPurchaseService.purchaseReward(securityUtils.getCurrentUserId(), rewardId);
     }
 
     @Override
