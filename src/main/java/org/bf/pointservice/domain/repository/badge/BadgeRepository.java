@@ -10,6 +10,8 @@ import java.util.UUID;
 
 public interface BadgeRepository extends JpaRepository<Badge, UUID> {
     Optional<Badge> findByBadgeId(UUID badgeId);
-    boolean existsByMinPoint(long minPoint);
+    boolean existsByMinPointAndDeletedAtIsNull(long minPoint);
     Page<Badge> findAllByDeletedAtIsNull(Pageable pageable);
+    boolean existsByBadgeNameAndDeletedAtIsNull(String badgeName);
+
 }
