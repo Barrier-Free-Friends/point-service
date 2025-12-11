@@ -34,7 +34,7 @@ public class UserReward {
     private UUID rewardId;
 
     @Column(nullable = false)
-    private LocalDateTime acquireAt;
+    private LocalDateTime acquiredAt;
 
     @Column(nullable = false)
     private Status status;
@@ -52,7 +52,7 @@ public class UserReward {
         }
         this.userId = userId;
         this.rewardId = rewardId;
-        this.acquireAt = LocalDateTime.now();
+        this.acquiredAt = LocalDateTime.now();
         this.status = Status.AVAILABLE;
         this.rewardSnapshot = new RewardSnapshot(rewardName, acquiredPrice, description);
     }

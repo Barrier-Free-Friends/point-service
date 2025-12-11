@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 public class RewardSnapshot {
     private String rewardName;
     private int acquiredPrice;
-    private String description;
+    private String descriptions;
 
-    RewardSnapshot(String rewardName, int acquiredPrice, String description) {
+    RewardSnapshot(String rewardName, int acquiredPrice, String descriptions) {
         this.rewardName = rewardName;
         this.acquiredPrice = acquiredPrice;
-        this.description = description;
+        this.descriptions = descriptions;
     }
 }
