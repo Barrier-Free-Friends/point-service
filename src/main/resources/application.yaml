@@ -25,6 +25,24 @@ spring:
         enabled: true
         service-id: config-server
 
+  kafka:
+    bootstrap-servers: code-factory.co.kr:3450
+
+    producer:
+      properties:
+        spring.json.add.type.headers: true
+        spring.json.trusted.packages: "*"
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+
+    consumer:
+      group-id: point-service-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+
 eureka:
   instance:
     prefer-ip-address: false
