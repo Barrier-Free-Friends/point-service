@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class PointQueryServiceImpl implements PointQueryService {
 
