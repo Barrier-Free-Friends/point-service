@@ -23,7 +23,7 @@ public class PointCommandServiceImpl implements PointCommandService {
     @Override
     public void gainPoint(PointGainRequest request) {
         pointGainService.gainPoints(
-                securityUtils.getCurrentUserId(),
+                request.userId(),
                 request.points(),
                 request.sourceTable(),
                 request.sourceId()
