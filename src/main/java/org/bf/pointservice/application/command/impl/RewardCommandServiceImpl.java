@@ -33,7 +33,7 @@ public class RewardCommandServiceImpl implements RewardCommandService {
                 .price(request.price())
                 .descriptions(request.descriptions())
                 .build();
-        return RewardResponse.from(reward);
+        return RewardResponse.from(rewardRepository.save(reward));
     }
 
     /**
@@ -51,7 +51,7 @@ public class RewardCommandServiceImpl implements RewardCommandService {
         if (request.price() != null) {
             reward.updatePrice(request.price());
         }
-        return RewardResponse.from(rewardRepository.save(reward));
+        return RewardResponse.from(reward);
     }
 
     /**
