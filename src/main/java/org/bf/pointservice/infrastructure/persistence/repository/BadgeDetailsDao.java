@@ -1,4 +1,4 @@
-package org.bf.pointservice.infrastructure.persistence;
+package org.bf.pointservice.infrastructure.persistence.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
