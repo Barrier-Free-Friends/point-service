@@ -2,8 +2,7 @@ package org.bf.pointservice.infrastructure.kafka;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bf.pointservice.application.command.PointCommandService;
-import org.bf.pointservice.application.dto.PointGainRequest;
+import org.bf.pointservice.application.event.ReportEventHandler;
 import org.bf.pointservice.domain.event.ReportCreatedEvent;
 import org.bf.pointservice.domain.event.ReportDeletedEvent;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class KafkaEventListener {
 
-    private final PointCommandService pointCommandService;
+    private final ReportEventHandler reportEventHandler;
 
     @KafkaListener(
             topics = "report-events",
@@ -23,7 +22,7 @@ public class KafkaEventListener {
     )
     public void handlePointGain(ReportCreatedEvent event) {
         log.info("[ReportCreatedEvent] 수신 완료. 이벤트: {}", event);
-        pointCommandService.gainPoint(PointGainRequest.from(event));
+        reportEventHandler.handleReportCreatedEvent(event, "point-service-group");
     }
 
     @KafkaListener(
@@ -33,6 +32,6 @@ public class KafkaEventListener {
     )
     public void handlePointCancel(ReportDeletedEvent event) {
         log.info("[ReportDeletedEvent] 수신 완료. 이벤트: {}", event);
-        pointCommandService.cancel(event);
+        reportEventHandler.handleReportDeletedEvent(event, "point-service-group");
     }
 }

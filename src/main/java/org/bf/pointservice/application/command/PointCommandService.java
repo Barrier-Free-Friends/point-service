@@ -1,7 +1,7 @@
 package org.bf.pointservice.application.command;
 
+import org.bf.pointservice.application.dto.PointCancelRequest;
 import org.bf.pointservice.application.dto.PointGainRequest;
-import org.bf.pointservice.domain.event.ReportDeletedEvent;
 
 import java.util.UUID;
 
@@ -13,5 +13,5 @@ public interface PointCommandService {
     void usePoint(UUID rewardId);
 
     // 포인트 사용 및 획득 취소
-    void cancel(ReportDeletedEvent event);
+    void cancel(PointCancelRequest request);
 }

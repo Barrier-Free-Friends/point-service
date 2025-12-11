@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.bf.global.infrastructure.exception.CustomException;
 import org.bf.global.security.SecurityUtils;
 import org.bf.pointservice.application.command.PointCommandService;
+import org.bf.pointservice.application.dto.PointCancelRequest;
 import org.bf.pointservice.application.dto.PointGainRequest;
 import org.bf.pointservice.domain.entity.point.PointTransaction;
-import org.bf.pointservice.domain.event.ReportDeletedEvent;
 import org.bf.pointservice.domain.exception.point.PointTransactionErrorCode;
 import org.bf.pointservice.domain.repository.point.PointTransactionRepository;
 import org.bf.pointservice.domain.service.PointCancellationService;
@@ -42,8 +42,8 @@ public class PointCommandServiceImpl implements PointCommandService {
     }
 
     @Override
-    public void cancel(ReportDeletedEvent event) {
-        PointTransaction transaction = pointTransactionRepository.findByUserIdAndSourceIdAndDeletedAtIsNull(event.getUserId(), event.getSourceId()).orElseThrow(() -> new CustomException(PointTransactionErrorCode.POINT_TRANSACTION_NOT_FOUND));
+    public void cancel(PointCancelRequest request) {
+        PointTransaction transaction = pointTransactionRepository.findByUserIdAndSourceIdAndDeletedAtIsNull(request.userId(), request.sourceId()).orElseThrow(() -> new CustomException(PointTransactionErrorCode.POINT_TRANSACTION_NOT_FOUND));
         pointCancellationService.cancel(transaction.getTransactionId());
     }
 }
