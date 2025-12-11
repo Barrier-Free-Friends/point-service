@@ -9,7 +9,7 @@ public record RewardResponse(
         UUID rewardId,
         String rewardName,
         int price,
-        String description
+        String descriptions
 ) {
     public static RewardResponse from(Reward reward) {
         return new RewardResponse(
@@ -25,7 +25,7 @@ public record RewardResponse(
                 userReward.getRewardId(),
                 userReward.getRewardSnapshot().getRewardName(),
                 userReward.getRewardSnapshot().getAcquiredPrice(),
-                userReward.getRewardSnapshot().getDescription()
+                userReward.getRewardSnapshot().getDescriptions()
         );
     }
 }

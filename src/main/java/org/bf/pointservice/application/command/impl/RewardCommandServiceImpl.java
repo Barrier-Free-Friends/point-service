@@ -31,7 +31,7 @@ public class RewardCommandServiceImpl implements RewardCommandService {
         Reward reward = Reward.builder()
                 .rewardName(request.rewardName())
                 .price(request.price())
-                .descriptions(request.description())
+                .descriptions(request.descriptions())
                 .build();
         return RewardResponse.from(reward);
     }
