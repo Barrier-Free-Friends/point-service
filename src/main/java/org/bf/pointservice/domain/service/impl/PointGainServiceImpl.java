@@ -30,8 +30,7 @@ public class PointGainServiceImpl implements PointGainService {
         pointBalance.gainPoints(points);
 
         // 사용자 뱃지 업데이트
-        UUID badgeId = badgeUpdateService.findNewBadgeId(pointBalance.getTotalAccumulatedBalance());
-        pointBalance.updateBadge(badgeId);
+        badgeUpdateService.updateBadge(pointBalance);
 
         // 사용자 포인트 거래 내역 기록
         logHistory(userId, points, sourceTable, sourceId, pointBalance.getCurrentBalance());
