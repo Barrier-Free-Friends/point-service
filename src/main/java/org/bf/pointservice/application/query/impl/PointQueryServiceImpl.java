@@ -13,6 +13,7 @@ import org.bf.pointservice.domain.exception.badge.BadgeErrorCode;
 import org.bf.pointservice.domain.repository.badge.BadgeRepository;
 import org.bf.pointservice.domain.repository.point.PointBalanceRepository;
 import org.bf.pointservice.domain.repository.point.PointTransactionRepository;
+import org.bf.pointservice.domain.service.BadgeUpdateService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class PointQueryServiceImpl implements PointQueryService {
     private final PointBalanceRepository pointBalanceRepository;
     private final BadgeRepository badgeRepository;
     private final PointTransactionRepository pointTransactionRepository;
+    private final BadgeUpdateService badgeUpdateService;
 
     @Override
     public PointBalanceResponse getCurrentBalance() {
@@ -44,6 +46,10 @@ public class PointQueryServiceImpl implements PointQueryService {
 
         PointBalance pointBalance = optionalBalance.get();
 
+        // 누적 포인트에 따른 할당 뱃지 lazy-update
+        badgeUpdateService.updateBadge(pointBalance);
+
+        // 업데이트한 뱃지 정보 조회
         Badge badge = badgeRepository.findByBadgeIdAndDeletedAtIsNull(pointBalance.getCurrentBadgeId())
                 .orElseThrow(() -> new CustomException(BadgeErrorCode.BADGE_NOT_FOUND));
 

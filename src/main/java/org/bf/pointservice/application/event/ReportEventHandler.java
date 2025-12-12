@@ -3,12 +3,11 @@ package org.bf.pointservice.application.event;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bf.global.infrastructure.event.ReportCreatedEvent;
+import org.bf.global.infrastructure.event.ReportDeletedEvent;
 import org.bf.pointservice.application.command.PointCommandService;
 import org.bf.pointservice.application.dto.PointCancelRequest;
 import org.bf.pointservice.application.dto.PointGainRequest;
-import org.bf.pointservice.domain.event.ReportCreatedEvent;
-import org.bf.pointservice.domain.event.ReportDeletedEvent;
-import org.bf.pointservice.domain.repository.point.PointTransactionRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class ReportEventHandler {
 
     private final PointCommandService pointCommandService;
-    private final PointTransactionRepository pointTransactionRepository;
     private final IdempotencyService idempotencyService;
 
     public void handleReportCreatedEvent(ReportCreatedEvent event, String groupId) {
