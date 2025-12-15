@@ -63,8 +63,7 @@ public class PointCancellationServiceImpl implements PointCancellationService {
         pointBalance.cancelGain(pointTransaction.getAmount());
 
         // 뱃지 업데이트
-        UUID badgeId = badgeUpdateService.findNewBadgeId(pointBalance.getTotalAccumulatedBalance());
-        pointBalance.updateBadge(badgeId);
+        badgeUpdateService.updateBadge(pointBalance);
     }
 
     /**
