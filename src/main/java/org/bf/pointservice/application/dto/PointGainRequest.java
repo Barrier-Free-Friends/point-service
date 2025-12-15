@@ -1,6 +1,6 @@
 package org.bf.pointservice.application.dto;
 
-import org.bf.pointservice.domain.event.ReportCreatedEvent;
+import org.bf.global.infrastructure.event.ReportCreatedEvent;
 
 import java.util.UUID;
 

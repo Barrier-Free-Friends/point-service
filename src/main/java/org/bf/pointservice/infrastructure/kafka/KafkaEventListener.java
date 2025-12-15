@@ -3,8 +3,8 @@ package org.bf.pointservice.infrastructure.kafka;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bf.pointservice.application.event.ReportEventHandler;
-import org.bf.pointservice.domain.event.ReportCreatedEvent;
-import org.bf.pointservice.domain.event.ReportDeletedEvent;
+import org.bf.global.infrastructure.event.ReportCreatedEvent;
+import org.bf.global.infrastructure.event.ReportDeletedEvent;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
