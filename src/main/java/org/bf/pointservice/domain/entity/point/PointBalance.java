@@ -12,6 +12,7 @@ import org.bf.global.domain.Auditable;
 import org.bf.global.infrastructure.exception.CustomException;
 import org.bf.pointservice.domain.exception.point.PointBalanceErrorCode;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -94,7 +95,7 @@ public class PointBalance extends Auditable {
      * 현재 보유한 뱃지 업데이트
      * */
     public void updateBadge(UUID badgeId) {
-        if (badgeId != null && !this.currentBadgeId.equals(badgeId)) {
+        if (badgeId != null && !Objects.equals(this.currentBadgeId, badgeId)) {
             this.currentBadgeId = badgeId;
         }
     }

@@ -16,17 +16,17 @@ public class KafkaEventListener {
     private final ReportEventHandler reportEventHandler;
 
     @KafkaListener(
-            topics = "report-events",
+            topics = "report-created-events",
             groupId = "point-service-group",
             containerFactory = "genericKafkaListenerContainerFactory"
     )
-    public void handlePointGain(ReportCreatedEvent event) {
+    public void handleEvent(ReportCreatedEvent event) {
         log.info("[ReportCreatedEvent] 수신 완료. 이벤트: {}", event);
         reportEventHandler.handleReportCreatedEvent(event, "point-service-group");
     }
 
     @KafkaListener(
-            topics = "report-events",
+            topics = "report-deleted-events",
             groupId = "point-service-group",
             containerFactory = "genericKafkaListenerContainerFactory"
     )

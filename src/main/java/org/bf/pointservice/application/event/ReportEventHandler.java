@@ -26,6 +26,7 @@ public class ReportEventHandler {
             return;
         }
         try {
+            log.info("이벤트 처리 시작");
             pointCommandService.gainPoint(PointGainRequest.from(event));
 
             idempotencyService.recordProcessedEvent(event.getEventId(), groupId);

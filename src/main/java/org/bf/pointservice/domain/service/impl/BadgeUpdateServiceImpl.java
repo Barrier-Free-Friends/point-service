@@ -1,6 +1,7 @@
 package org.bf.pointservice.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bf.pointservice.domain.entity.badge.Badge;
 import org.bf.pointservice.domain.entity.point.PointBalance;
 import org.bf.pointservice.domain.repository.badge.BadgeDetailsRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BadgeUpdateServiceImpl implements BadgeUpdateService {
@@ -23,7 +25,9 @@ public class BadgeUpdateServiceImpl implements BadgeUpdateService {
         UUID newBadgeId = badgeDetailsRepository.findByPointRange(pointBalance.getTotalAccumulatedBalance())
                 .map(Badge::getBadgeId)
                 .orElse(null);
+        log.info("new badge id is {}", newBadgeId);
 
         pointBalance.updateBadge(newBadgeId);
+        log.info("updated badge id is {}", newBadgeId);
     }
 }
