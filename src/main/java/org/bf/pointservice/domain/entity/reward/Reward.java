@@ -9,6 +9,7 @@ import org.bf.global.domain.Auditable;
 import org.bf.global.infrastructure.exception.CustomException;
 import org.bf.pointservice.domain.exception.reward.RewardErrorCode;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -31,11 +32,20 @@ public class Reward extends Auditable {
 
     private String descriptions;
 
+    private Integer stock;
+
+    private LocalDateTime expiredAt;
+
     @Builder
-    public Reward(String rewardName, int price, String descriptions) {
+    public Reward(String rewardName, int price, String descriptions, Integer stock, LocalDateTime expiredAt) {
         this.rewardName = rewardName;
         setPrice(price);
         this.descriptions = descriptions;
+        this.stock = stock;
+        if (expiredAt != null && expiredAt.isBefore(LocalDateTime.now())) {
+            throw new CustomException(RewardErrorCode.INVALID_EXPIRATION_DATE);
+        }
+        this.expiredAt = expiredAt;
     }
 
     private void setPrice(int price) {
@@ -43,6 +53,16 @@ public class Reward extends Auditable {
             throw new CustomException(RewardErrorCode.INVALID_PRICE);
         }
         this.price = price;
+    }
+
+    public void decreaseStock() {
+        if (this.stock == null) {
+            return;
+        }
+        if (this.stock <= 0) {
+            throw new CustomException(RewardErrorCode.REWARD_SOLD_OUT);
+        }
+        this.stock--;
     }
 
     public void updateName(String rewardName) {

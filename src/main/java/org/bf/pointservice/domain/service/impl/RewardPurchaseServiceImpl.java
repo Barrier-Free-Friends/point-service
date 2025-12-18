@@ -11,6 +11,7 @@ import org.bf.pointservice.domain.service.UserRewardService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -25,6 +26,10 @@ public class RewardPurchaseServiceImpl implements RewardPurchaseService {
     @Override
     public void purchaseReward(UUID userId, UUID rewardId) {
         Reward reward = rewardRepository.findByRewardIdAndDeletedAtIsNull(rewardId).orElseThrow(() -> new CustomException(RewardErrorCode.REWARD_NOT_FOUND));
+        if (reward.getExpiredAt() != null && reward.getExpiredAt().isBefore(LocalDateTime.now())) {
+            throw new CustomException(RewardErrorCode.REWARD_EXPIRED);
+        }
+        reward.decreaseStock();
         pointUseService.usePoints(userId, reward.getPrice(), "p_reward", rewardId);
         userRewardService.grantReward(userId, reward);
     }
