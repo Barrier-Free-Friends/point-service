@@ -12,6 +12,7 @@ import org.bf.pointservice.application.query.BadgeQueryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -27,8 +28,8 @@ public class BadgeController {
      * 신규 뱃지 생성
      * */
     @PostMapping
-    public CustomResponse<BadgeResponse> createBadge(@Valid @RequestBody BadgeCreateRequest request) {
-        BadgeResponse response = badgeCommandService.createBadge(request);
+    public CustomResponse<BadgeResponse> createBadge(@Valid @RequestPart("request") BadgeCreateRequest request, @RequestPart("file") MultipartFile file) {
+        BadgeResponse response = badgeCommandService.createBadge(request, file);
         return CustomResponse.onSuccess(GeneralSuccessCode.CREATED, response);
     }
 
