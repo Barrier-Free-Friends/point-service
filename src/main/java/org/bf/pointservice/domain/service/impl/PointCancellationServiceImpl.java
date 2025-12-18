@@ -97,6 +97,13 @@ public class PointCancellationServiceImpl implements PointCancellationService {
     }
 
     private void logHistory(PointTransaction pointTransaction, Type type) {
+        boolean isAlreadyProcessed = pointTransactionRepository
+                .findByUserIdAndSourceTableAndSourceIdAndTypeAndDeletedAtIsNull(
+                        pointTransaction.getUserId(), pointTransaction.getSourceTable(), pointTransaction.getSourceId(), type
+                ).isPresent();
+        if (isAlreadyProcessed) {
+            throw new CustomException(PointTransactionErrorCode.ALREADY_PROCESSED_TRANSACTION);
+        }
         pointTransactionRepository.save(
                 PointTransaction.createCancel(
                         pointTransaction.getUserId(),

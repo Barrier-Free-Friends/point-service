@@ -13,7 +13,8 @@ public enum PointTransactionErrorCode implements BaseErrorCode {
     INVALID_TYPE_OF_CANCEL(HttpStatus.BAD_REQUEST, "TYPE400_2", "거래 취소 내역 생성 시 타입이 CANCEL이어야 합니다."),
     POINT_TRANSACTION_NOT_FOUND(HttpStatus.NOT_FOUND, "POINT_TRANSACTION400", "포인트 거래 내역을 찾을 수 없습니다."),
     ALREADY_CANCEL(HttpStatus.BAD_REQUEST, "CANCEL400", "이미 취소된 거래는 다시 취소할 수 없습니다."),
-    INVALID_CANCEL_TYPE(HttpStatus.BAD_REQUEST, "TYPE400", "취소할 수 없는 타입의 거래 내역입니다.");
+    INVALID_CANCEL_TYPE(HttpStatus.BAD_REQUEST, "TYPE400", "취소할 수 없는 타입의 거래 내역입니다."),
+    ALREADY_PROCESSED_TRANSACTION(HttpStatus.BAD_REQUEST, "DUPLICATE_TRANSACTION400", "이미 처리된 거래 내역 입니다.");
 
     private final HttpStatus status;
     private final String code;
