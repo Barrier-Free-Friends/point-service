@@ -43,7 +43,7 @@ public class UserReward {
     private RewardSnapshot rewardSnapshot;
 
     @Builder
-    public UserReward(UUID userId, UUID rewardId, String rewardName, int acquiredPrice, String description) {
+    public UserReward(UUID userId, UUID rewardId, String rewardName, int acquiredPrice, String description, LocalDateTime expiredAt) {
         if (userId == null || rewardId == null) {
             throw new CustomException(RewardErrorCode.INVALID_RELATION);
         }
@@ -54,7 +54,7 @@ public class UserReward {
         this.rewardId = rewardId;
         this.acquiredAt = LocalDateTime.now();
         this.status = Status.AVAILABLE;
-        this.rewardSnapshot = new RewardSnapshot(rewardName, acquiredPrice, description);
+        this.rewardSnapshot = new RewardSnapshot(rewardName, acquiredPrice, description, expiredAt);
     }
 
     void useReward() {

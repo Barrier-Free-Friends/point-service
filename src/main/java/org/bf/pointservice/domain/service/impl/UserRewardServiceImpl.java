@@ -1,11 +1,8 @@
 package org.bf.pointservice.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.bf.global.infrastructure.exception.CustomException;
 import org.bf.pointservice.domain.entity.reward.Reward;
 import org.bf.pointservice.domain.entity.reward.UserReward;
-import org.bf.pointservice.domain.exception.reward.RewardErrorCode;
-import org.bf.pointservice.domain.repository.reward.RewardRepository;
 import org.bf.pointservice.domain.repository.reward.UserRewardRepository;
 import org.bf.pointservice.domain.service.UserRewardService;
 import org.springframework.stereotype.Service;
@@ -29,6 +26,7 @@ public class UserRewardServiceImpl implements UserRewardService {
                         .rewardName(reward.getRewardName())
                         .description(reward.getDescriptions())
                         .acquiredPrice(reward.getPrice())
+                        .expiredAt(reward.getExpiredAt())
                         .build()
         );
     }
