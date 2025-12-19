@@ -48,6 +48,9 @@ public class Reward extends Auditable {
         this.expiredAt = expiredAt;
     }
 
+    /**
+     * 보상 획득을 위한 포인트 가격 설정
+     * */
     private void setPrice(int price) {
         if (price < 0) {
             throw new CustomException(RewardErrorCode.INVALID_PRICE);
@@ -55,6 +58,9 @@ public class Reward extends Auditable {
         this.price = price;
     }
 
+    /**
+     * 보상 재고 감소
+     * */
     public void decreaseStock() {
         if (this.stock == null) {
             return;
@@ -65,6 +71,9 @@ public class Reward extends Auditable {
         this.stock--;
     }
 
+    /**
+     * 보상 이름 수정
+     * */
     public void updateName(String rewardName) {
         if (rewardName == null || rewardName.trim().isEmpty()) {
             throw new CustomException(RewardErrorCode.INVALID_REWARD_NAME);
@@ -72,10 +81,16 @@ public class Reward extends Auditable {
         this.rewardName = rewardName;
     }
 
+    /**
+     * 보상 획득을 위한 포인트 가격 수정
+     * */
     public void updatePrice(int price) {
         setPrice(price);
     }
 
+    /**
+     * 보상 설명 수정
+     * */
     public void updateDescriptions(String descriptions) {
         this.descriptions = descriptions;
     }

@@ -33,6 +33,9 @@ public class PointQueryServiceImpl implements PointQueryService {
     private final PointTransactionRepository pointTransactionRepository;
     private final BadgeUpdateService badgeUpdateService;
 
+    /**
+     * 로그인한 유저의 현재 포인트 잔액 조회
+     * */
     @Override
     public PointBalanceResponse getCurrentBalance() {
         UUID currentUserId = securityUtils.getCurrentUserId();
@@ -56,6 +59,9 @@ public class PointQueryServiceImpl implements PointQueryService {
         return PointBalanceResponse.from(pointBalance, badge);
     }
 
+    /**
+     * 로그인한 유저의 포인트 거래 내역 조회
+     * */
     @Override
     public Page<PointTransactionResponse> getTransactions(Pageable pageable) {
         Page<PointTransaction> pointTransactions = pointTransactionRepository.findByUserIdAndDeletedAtIsNull(securityUtils.getCurrentUserId(), pageable);

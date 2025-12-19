@@ -26,12 +26,18 @@ public class BadgeQueryServiceImpl implements BadgeQueryService {
     private final PointBalanceRepository pointBalanceRepository;
     private final BadgeUpdateService badgeUpdateService;
 
+    /**
+     * 모든 뱃지 조회
+     * */
     @Override
     public Page<BadgeResponse> getBadges(Pageable pageable) {
         Page<Badge> badges = badgeRepository.findAllByDeletedAtIsNull(pageable);
         return badges.map(BadgeResponse::from);
     }
 
+    /**
+     * 단일 보상 조회
+     * */
     @Override
     public BadgeResponse getBadge(UUID badgeId) {
         Badge badge =  badgeRepository.findById(badgeId).orElseThrow(() ->
@@ -39,6 +45,9 @@ public class BadgeQueryServiceImpl implements BadgeQueryService {
         return BadgeResponse.from(badge);
     }
 
+    /**
+     * 유저가 보유한 뱃지 이미지 조회
+     * */
     @Override
     public String getBadgeImage(UUID userId) {
         PointBalance pointBalance = pointBalanceRepository.findByUserIdAndDeletedAtIsNull(userId)

@@ -19,6 +19,10 @@ public class BadgeUpdateScheduler {
     private final JobLauncher asyncJobLauncher;
     private final Job updateBadgeJob;
 
+    /**
+     * 뱃지 업데이트 스케줄러
+     * - 새벽 3시에 주기적으로 작업 실행
+     * */
     @Scheduled(cron = "0 0 3 * * *")
     public void updateBadge() {
         try {

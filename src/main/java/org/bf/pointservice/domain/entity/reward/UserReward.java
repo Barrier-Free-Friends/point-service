@@ -39,6 +39,7 @@ public class UserReward {
     @Column(nullable = false)
     private Status status;
 
+    // 보상 획득 시점의 보상 정보 저장
     @Embedded
     private RewardSnapshot rewardSnapshot;
 
@@ -57,7 +58,13 @@ public class UserReward {
         this.rewardSnapshot = new RewardSnapshot(rewardName, acquiredPrice, description, expiredAt);
     }
 
+    /**
+     * 보상 사용
+     * */
     void useReward() {
+        if (this.rewardSnapshot.getExpiredAt().isAfter(LocalDateTime.now())) {
+            throw new CustomException((RewardErrorCode.REWARD_EXPIRED));
+        }
         if (status == Status.USED) {
             throw new CustomException(RewardErrorCode.ALREADY_USED);
         }

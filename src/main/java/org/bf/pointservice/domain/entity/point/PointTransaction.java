@@ -68,6 +68,9 @@ public class PointTransaction extends Auditable {
         this.cancelled = cancelled;
     }
 
+    /**
+     * 거래 내역 생성 (포인트 획득, 포인트 사용)
+     * */
     public static PointTransaction createOriginal(UUID userId, String sourceTable, UUID sourceId, Type type, int amount, int afterBalance) {
         if (type == Type.CANCEL_GAIN || type == Type.CANCEL_USE) {
             throw new CustomException(PointTransactionErrorCode.INVALID_TYPE_OF_ORIGINAL);
@@ -83,6 +86,9 @@ public class PointTransaction extends Auditable {
                 .build();
     }
 
+    /**
+     * 거래 내역 취소 시 취소 내역 생성 (포인트 획득 취소, 포인트 사용 취소)
+     * */
     public static PointTransaction createCancel(UUID userId, String sourceTable, UUID sourceId, Type type, int amount, int afterBalance, UUID originalTransactionId) {
         if (type == Type.GAIN || type == Type.USE) {
             throw new CustomException(PointTransactionErrorCode.INVALID_TYPE_OF_CANCEL);
@@ -99,10 +105,16 @@ public class PointTransaction extends Auditable {
                 .build();
     }
 
+    /**
+     * 거래 내역 취소
+     * */
     public void cancel() {
         this.cancelled = true;
     }
 
+    /**
+     * 거래 포인트 금액 설정
+     * */
     private void setAmount(int amount) {
         if (amount < 0) {
             throw new CustomException(PointTransactionErrorCode.INVALID_AMOUNT);

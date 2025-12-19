@@ -26,6 +26,9 @@ public class PointCommandServiceImpl implements PointCommandService {
     private final PointCancellationService pointCancellationService;
     private final PointTransactionRepository pointTransactionRepository;
 
+    /**
+     * 포인트 획득
+     * */
     @Override
     public void gainPoint(PointGainRequest request) {
         pointGainService.gainPoints(
@@ -36,11 +39,17 @@ public class PointCommandServiceImpl implements PointCommandService {
         );
     }
 
+    /**
+     * 포인트 사용
+     * */
     @Override
     public void usePoint(UUID rewardId) {
         rewardPurchaseService.purchaseReward(securityUtils.getCurrentUserId(), rewardId);
     }
 
+    /**
+     * 포인트 획득 및 사용 취소
+     * */
     @Override
     public void cancel(PointCancelRequest request) {
         PointTransaction transaction = pointTransactionRepository.findByUserIdAndSourceIdAndDeletedAtIsNull(request.userId(), request.sourceId()).orElseThrow(() -> new CustomException(PointTransactionErrorCode.POINT_TRANSACTION_NOT_FOUND));
