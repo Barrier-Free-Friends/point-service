@@ -6,6 +6,7 @@ import org.bf.global.infrastructure.CustomResponse;
 import org.bf.global.infrastructure.success.GeneralSuccessCode;
 import org.bf.pointservice.application.command.BadgeCommandService;
 import org.bf.pointservice.application.dto.BadgeCreateRequest;
+import org.bf.pointservice.application.dto.BadgeImageResponse;
 import org.bf.pointservice.application.dto.BadgeResponse;
 import org.bf.pointservice.application.dto.BadgeUpdateRequest;
 import org.bf.pointservice.application.query.BadgeQueryService;
@@ -67,5 +68,14 @@ public class BadgeController {
     public CustomResponse<BadgeResponse> getBadge(@PathVariable("badgeId") UUID badgeId) {
         BadgeResponse response = badgeQueryService.getBadge(badgeId);
         return CustomResponse.onSuccess(GeneralSuccessCode.OK, response);
+    }
+
+    /**
+     * 프론트에서 뱃지 이미지를 조회
+     * */
+    @GetMapping("/image/{userId}")
+    public CustomResponse<BadgeImageResponse> getBadgeImage(@PathVariable UUID userId) {
+        String url = badgeQueryService.getBadgeImage(userId);
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK, new BadgeImageResponse(url));
     }
 }

@@ -12,4 +12,7 @@ public interface BadgeQueryService {
 
     // 단일 뱃지 조회
     BadgeResponse getBadge(UUID badgeId);
+
+    // 뱃지 이미지 조회
+    String getBadgeImage(UUID userId);
 }
