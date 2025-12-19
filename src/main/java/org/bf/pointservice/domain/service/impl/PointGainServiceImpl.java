@@ -3,9 +3,11 @@ package org.bf.pointservice.domain.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bf.global.infrastructure.exception.CustomException;
 import org.bf.pointservice.domain.entity.point.PointBalance;
 import org.bf.pointservice.domain.entity.point.PointTransaction;
 import org.bf.pointservice.domain.entity.point.Type;
+import org.bf.pointservice.domain.exception.point.PointTransactionErrorCode;
 import org.bf.pointservice.domain.repository.point.PointBalanceRepository;
 import org.bf.pointservice.domain.repository.point.PointTransactionRepository;
 import org.bf.pointservice.domain.service.BadgeUpdateService;
@@ -50,6 +52,13 @@ public class PointGainServiceImpl implements PointGainService {
     }
 
     private void logHistory(UUID userId, int points, String sourceTable, UUID sourceId, int afterBalance) {
+        boolean isAlreadyProcessed = pointTransactionRepository
+                .findByUserIdAndSourceTableAndSourceIdAndTypeAndDeletedAtIsNull(
+                        userId, sourceTable, sourceId, Type.GAIN
+                ).isPresent();
+        if (isAlreadyProcessed) {
+            throw new CustomException(PointTransactionErrorCode.ALREADY_PROCESSED_TRANSACTION);
+        }
         PointTransaction history = PointTransaction.createOriginal(userId, sourceTable, sourceId, Type.GAIN, points, afterBalance);
         pointTransactionRepository.save(history);
     }

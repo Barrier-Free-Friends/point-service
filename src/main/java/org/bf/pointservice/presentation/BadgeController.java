@@ -6,12 +6,14 @@ import org.bf.global.infrastructure.CustomResponse;
 import org.bf.global.infrastructure.success.GeneralSuccessCode;
 import org.bf.pointservice.application.command.BadgeCommandService;
 import org.bf.pointservice.application.dto.BadgeCreateRequest;
+import org.bf.pointservice.application.dto.BadgeImageResponse;
 import org.bf.pointservice.application.dto.BadgeResponse;
 import org.bf.pointservice.application.dto.BadgeUpdateRequest;
 import org.bf.pointservice.application.query.BadgeQueryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -27,8 +29,8 @@ public class BadgeController {
      * 신규 뱃지 생성
      * */
     @PostMapping
-    public CustomResponse<BadgeResponse> createBadge(@Valid @RequestBody BadgeCreateRequest request) {
-        BadgeResponse response = badgeCommandService.createBadge(request);
+    public CustomResponse<BadgeResponse> createBadge(@Valid @RequestPart("request") BadgeCreateRequest request, @RequestPart("file") MultipartFile file) {
+        BadgeResponse response = badgeCommandService.createBadge(request, file);
         return CustomResponse.onSuccess(GeneralSuccessCode.CREATED, response);
     }
 
@@ -66,5 +68,14 @@ public class BadgeController {
     public CustomResponse<BadgeResponse> getBadge(@PathVariable("badgeId") UUID badgeId) {
         BadgeResponse response = badgeQueryService.getBadge(badgeId);
         return CustomResponse.onSuccess(GeneralSuccessCode.OK, response);
+    }
+
+    /**
+     * 프론트에서 뱃지 이미지를 조회
+     * */
+    @GetMapping("/image/{userId}")
+    public CustomResponse<BadgeImageResponse> getBadgeImage(@PathVariable UUID userId) {
+        String url = badgeQueryService.getBadgeImage(userId);
+        return CustomResponse.onSuccess(GeneralSuccessCode.OK, new BadgeImageResponse(url));
     }
 }

@@ -6,6 +6,7 @@ import org.bf.global.security.SecurityUtils;
 import org.bf.pointservice.application.dto.RewardResponse;
 import org.bf.pointservice.application.query.RewardQueryService;
 import org.bf.pointservice.domain.entity.reward.Reward;
+import org.bf.pointservice.domain.entity.reward.Status;
 import org.bf.pointservice.domain.entity.reward.UserReward;
 import org.bf.pointservice.domain.exception.reward.RewardErrorCode;
 import org.bf.pointservice.domain.repository.reward.RewardRepository;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -31,7 +33,7 @@ public class RewardQueryServiceImpl implements RewardQueryService {
      * */
     @Override
     public Page<RewardResponse> getRewards(Pageable pageable) {
-        Page<Reward> rewards = rewardRepository.findAllByDeletedAtIsNull(pageable);
+        Page<Reward> rewards = rewardRepository.findAllAvailable(LocalDateTime.now(), pageable);
         return rewards.map(RewardResponse::from);
     }
 
@@ -40,7 +42,7 @@ public class RewardQueryServiceImpl implements RewardQueryService {
      * */
     @Override
     public Page<RewardResponse> getRewardsFromUser(Pageable pageable) {
-        Page<UserReward> rewards = userRewardRepository.findByUserId(securityUtils.getCurrentUserId(), pageable);
+        Page<UserReward> rewards = userRewardRepository.findAvailableRewards(securityUtils.getCurrentUserId(), Status.AVAILABLE, LocalDateTime.now(), pageable);
         return rewards.map(RewardResponse::from);
     }
 

@@ -32,6 +32,8 @@ public class RewardCommandServiceImpl implements RewardCommandService {
                 .rewardName(request.rewardName())
                 .price(request.price())
                 .descriptions(request.descriptions())
+                .stock(request.stock())
+                .expiredAt(request.expiredAt())
                 .build();
         return RewardResponse.from(rewardRepository.save(reward));
     }

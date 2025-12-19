@@ -12,7 +12,9 @@ import org.bf.pointservice.domain.entity.badge.Badge;
 import org.bf.pointservice.domain.exception.badge.BadgeErrorCode;
 import org.bf.pointservice.domain.repository.badge.BadgeRepository;
 import org.bf.pointservice.domain.service.CheckPointGap;
+import org.bf.pointservice.domain.service.ImageUploader;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -24,17 +26,21 @@ public class BadgeCommandServiceImpl implements BadgeCommandService {
     private final BadgeRepository badgeRepository;
     private final CheckPointGap checkPointGap;
     private final SecurityUtils securityUtils;
+    private final ImageUploader imageUploader;
 
     @Override
-    public BadgeResponse createBadge(BadgeCreateRequest request) {
+    public BadgeResponse createBadge(BadgeCreateRequest request, MultipartFile file) {
         if (badgeRepository.existsByBadgeNameAndDeletedAtIsNull(request.badgeName())) {
             throw new CustomException(BadgeErrorCode.INVALID_BADGE_NAME);
         }
+
+        String url = imageUploader.upload(file);
+
         Badge badge = Badge.builder()
                 .badgeName(request.badgeName())
                 .minPoint(request.minPoint())
                 .descriptions(request.descriptions())
-                .imgUrl(request.imgUrl())
+                .imgUrl(url)
                 .checkPointGap(checkPointGap)
                 .build();
         badgeRepository.save(badge);

@@ -19,7 +19,15 @@ import java.util.UUID;
  * - 포인트 취소 시 취소된 항목을 또 다시 취소하지 않도록 cancelled로 확인
  * - amount는 양수로만 기입 (+/-는 거래 타입으로 구분)
  * */
-@Table(name = "p_point_transaction")
+@Table(
+        name = "p_point_transaction",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_point_transaction_idempotency",
+                        columnNames = {"user_id", "source_table", "source_id", "type"}
+                )
+        }
+)
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
