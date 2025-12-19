@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
-public class SwaggerConfig {
+public class PointSwaggerConfig {
 
 
     private final String PREFIX = "/v1/point";
