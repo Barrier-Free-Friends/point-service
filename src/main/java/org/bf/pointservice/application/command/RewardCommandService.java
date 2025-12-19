@@ -6,13 +6,22 @@ import org.bf.pointservice.application.dto.RewardUpdateRequest;
 
 import java.util.UUID;
 
+/**
+ * 보상 생성, 수정, 삭제 서비스
+ * */
 public interface RewardCommandService {
-    // 신규 보상 생성
+    /**
+     * 보상 생성
+     * */
     RewardResponse createReward(RewardCreateRequest request);
 
-    // 보상 내용 업데이트
+    /**
+     * 보상 수정
+     * */
     RewardResponse updateReward(UUID rewardId, RewardUpdateRequest request);
 
-    // 보상 삭제
+    /**
+     * 보상 삭제
+     * */
     void deleteReward(UUID rewardId);
 }

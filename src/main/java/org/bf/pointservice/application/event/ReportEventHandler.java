@@ -20,6 +20,10 @@ public class ReportEventHandler {
     private final PointCommandService pointCommandService;
     private final IdempotencyService idempotencyService;
 
+    /**
+     * 제보 생성 이벤트 처리
+     * - 포인트 획득
+     * */
     public void handleReportCreatedEvent(ReportCreatedEvent event, String groupId) {
         if (idempotencyService.isAlreadyProcessed(event.getEventId(), groupId)) {
             log.warn("이미 처리된 이벤트입니다. [{}]", event.getEventId());
@@ -39,6 +43,10 @@ public class ReportEventHandler {
         }
     }
 
+    /**
+     * 제보 삭제 이벤트 처리
+     * - 포인트 획득 취소
+     * */
     public void handleReportDeletedEvent(ReportDeletedEvent event, String groupId) {
         if (idempotencyService.isAlreadyProcessed(event.getEventId(), groupId)) {
             log.warn("이미 처리된 이벤트입니다. [{}]", event.getEventId());

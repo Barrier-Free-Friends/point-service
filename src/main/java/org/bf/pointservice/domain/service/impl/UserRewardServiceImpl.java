@@ -17,6 +17,9 @@ public class UserRewardServiceImpl implements UserRewardService {
 
     private final UserRewardRepository userRewardRepository;
 
+    /**
+     * 사용자에게 보상 할당 (부여)
+     * */
     @Override
     public void grantReward(UUID userId, Reward reward) {
         userRewardRepository.save(

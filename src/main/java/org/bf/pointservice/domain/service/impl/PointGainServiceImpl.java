@@ -26,6 +26,9 @@ public class PointGainServiceImpl implements PointGainService {
     private final PointTransactionRepository pointTransactionRepository;
     private final BadgeUpdateService badgeUpdateService;
 
+    /**
+     * 포인트 획득
+     * */
     @Override
     public void gainPoints(UUID userId, int points, String sourceTable, UUID sourceId) {
         PointBalance pointBalance = getOrCreateBalance(userId);
@@ -43,6 +46,9 @@ public class PointGainServiceImpl implements PointGainService {
         log.info("거래 내역 기록");
     }
 
+    /**
+     * 유저의 포인트 계정 반환 (아직 없을 경우 생성)
+     * */
     private PointBalance getOrCreateBalance(UUID userId) {
         return pointBalanceRepository.findByUserIdAndDeletedAtIsNull(userId)
                 .orElseGet(() -> {
@@ -51,6 +57,9 @@ public class PointGainServiceImpl implements PointGainService {
                 });
     }
 
+    /**
+     * 포인트 획득 거래 내역 기록
+     * */
     private void logHistory(UUID userId, int points, String sourceTable, UUID sourceId, int afterBalance) {
         boolean isAlreadyProcessed = pointTransactionRepository
                 .findByUserIdAndSourceTableAndSourceIdAndTypeAndDeletedAtIsNull(
