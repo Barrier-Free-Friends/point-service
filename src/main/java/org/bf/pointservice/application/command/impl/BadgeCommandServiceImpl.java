@@ -28,14 +28,20 @@ public class BadgeCommandServiceImpl implements BadgeCommandService {
     private final SecurityUtils securityUtils;
     private final ImageUploader imageUploader;
 
+    /**
+     * 신규 뱃지 생성
+     * */
     @Override
     public BadgeResponse createBadge(BadgeCreateRequest request, MultipartFile file) {
+        // 뱃지 이름 중복 확인
         if (badgeRepository.existsByBadgeNameAndDeletedAtIsNull(request.badgeName())) {
             throw new CustomException(BadgeErrorCode.INVALID_BADGE_NAME);
         }
 
+        // 뱃지 아이콘 이미지 s3에 업로드
         String url = imageUploader.upload(file);
 
+        // 신규 뱃지 생성
         Badge badge = Badge.builder()
                 .badgeName(request.badgeName())
                 .minPoint(request.minPoint())
@@ -47,6 +53,9 @@ public class BadgeCommandServiceImpl implements BadgeCommandService {
         return BadgeResponse.from(badge);
     }
 
+    /**
+     * 뱃지 정보 수정
+     * */
     @Override
     public BadgeResponse updateBadge(UUID badgeId, BadgeUpdateRequest request) {
         Badge badge = badgeRepository.findByBadgeIdAndDeletedAtIsNull(badgeId).orElseThrow(
@@ -61,15 +70,16 @@ public class BadgeCommandServiceImpl implements BadgeCommandService {
         if (request.descriptions() != null && !request.descriptions().isEmpty()) {
             badge.updateDescriptions(request.descriptions());
         }
-        if (request.imgUrl() != null && !request.imgUrl().isBlank()) {
-            badge.updateImgUrl(request.imgUrl());
-        }
         if (request.minPoint() != null && !request.minPoint().equals(badge.getMinPoint())) {
             badge.updateMinPoint(request.minPoint(), checkPointGap);
         }
         return BadgeResponse.from(badge);
     }
 
+    /**
+     * 뱃지 삭제
+     * - soft delete 처리
+     * */
     @Override
     public void deleteBadge(UUID badgeId) {
         Badge badge = badgeRepository.findByBadgeIdAndDeletedAtIsNull(badgeId).orElseThrow(

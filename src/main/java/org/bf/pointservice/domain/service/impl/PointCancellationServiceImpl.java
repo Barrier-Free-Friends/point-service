@@ -27,6 +27,9 @@ public class PointCancellationServiceImpl implements PointCancellationService {
     private final BadgeUpdateService badgeUpdateService;
     private final UserRewardRepository userRewardRepository;
 
+    /**
+     * 포인트 사용 및 획득 거래 내역 취소
+     * */
     @Override
     public void cancel(UUID transactionId) {
         PointTransaction pointTransaction = pointTransactionRepository.findByTransactionIdAndDeletedAtIsNull(transactionId).orElseThrow(

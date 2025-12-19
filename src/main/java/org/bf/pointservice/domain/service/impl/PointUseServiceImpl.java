@@ -23,6 +23,9 @@ public class PointUseServiceImpl implements PointUseService {
     private final PointBalanceRepository pointBalanceRepository;
     private final PointTransactionRepository pointTransactionRepository;
 
+    /**
+     * 포인트 사용
+     * */
     @Override
     public void usePoints(UUID userId, int points, String sourceTable, UUID sourceId) {
         PointBalance pointBalance = pointBalanceRepository.findByUserIdAndDeletedAtIsNull(userId).orElseThrow(() -> new CustomException(PointBalanceErrorCode.POINT_BALANCE_NOT_FOUND));
@@ -34,6 +37,9 @@ public class PointUseServiceImpl implements PointUseService {
         logHistory(userId, points, sourceTable, sourceId, pointBalance.getCurrentBalance());
     }
 
+    /**
+     * 포인트 사용 거래 내역 기록
+     * */
     private void logHistory(UUID userId, int points, String sourceTable, UUID sourceId, int afterBalance) {
         boolean isAlreadyProcessed = pointTransactionRepository
                 .findByUserIdAndSourceTableAndSourceIdAndTypeAndDeletedAtIsNull(

@@ -1,5 +1,7 @@
 package org.bf.pointservice.presentation;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.bf.global.infrastructure.CustomResponse;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
+@Tag(name = "뱃지 API")
 @RestController
 @RequestMapping("/badges")
 @RequiredArgsConstructor
@@ -28,6 +31,7 @@ public class BadgeController {
     /**
      * 신규 뱃지 생성
      * */
+    @Operation(summary = "신규 뱃지 생성")
     @PostMapping
     public CustomResponse<BadgeResponse> createBadge(@Valid @RequestPart("request") BadgeCreateRequest request, @RequestPart("file") MultipartFile file) {
         BadgeResponse response = badgeCommandService.createBadge(request, file);
@@ -37,6 +41,7 @@ public class BadgeController {
     /**
      * 뱃지 정보 수정
      * */
+    @Operation(summary = "뱃지 정보 수정")
     @PatchMapping("{badgeId}")
     public CustomResponse<BadgeResponse> updateBadge(@PathVariable("badgeId") UUID badgeId, @Valid @RequestBody BadgeUpdateRequest request) {
         BadgeResponse response = badgeCommandService.updateBadge(badgeId, request);
@@ -46,6 +51,7 @@ public class BadgeController {
     /**
      * 뱃지 삭제
      * */
+    @Operation(summary = "뱃지 삭제")
     @DeleteMapping("{badgeId}")
     public CustomResponse<?> deleteBadge(@PathVariable("badgeId") UUID badgeId) {
         badgeCommandService.deleteBadge(badgeId);
@@ -55,6 +61,7 @@ public class BadgeController {
     /**
      * 뱃지 목록 조회
      * */
+    @Operation(summary = "뱃지 목록 조회")
     @GetMapping
     public CustomResponse<Page<BadgeResponse>> getBadges(Pageable pageable) {
         Page<BadgeResponse> response = badgeQueryService.getBadges(pageable);
@@ -64,6 +71,7 @@ public class BadgeController {
     /**
      * 단일 뱃지 정보 조회
      * */
+    @Operation(summary = "단일 뱃지 정보 조회")
     @GetMapping("{badgeId}")
     public CustomResponse<BadgeResponse> getBadge(@PathVariable("badgeId") UUID badgeId) {
         BadgeResponse response = badgeQueryService.getBadge(badgeId);
@@ -73,6 +81,7 @@ public class BadgeController {
     /**
      * 프론트에서 뱃지 이미지를 조회
      * */
+    @Operation(summary = "사용자의 뱃지 이미지 조회")
     @GetMapping("/image/{userId}")
     public CustomResponse<BadgeImageResponse> getBadgeImage(@PathVariable UUID userId) {
         String url = badgeQueryService.getBadgeImage(userId);
