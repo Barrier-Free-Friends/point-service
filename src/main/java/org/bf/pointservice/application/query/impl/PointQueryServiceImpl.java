@@ -45,7 +45,7 @@ public class PointQueryServiceImpl implements PointQueryService {
             return PointBalanceResponse.fromZeroPointUser(currentUserId);
         }
 
-        // 시스템 정책 버전 확인 (Caffeine 로컬 캐시 조회 - DB I/O 없음)
+        // 시스템 정책 뱃지 버전 확인
         Long latestVersion = badgePolicyService.getLastestVersion();
 
         // 버전 비교: 유저의 버전이 최신과 다를 때만 뱃지 판정 및 업데이트 로직 실행
