@@ -1,7 +1,6 @@
 package org.bf.pointservice.application.query.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.bf.global.infrastructure.exception.CustomException;
 import org.bf.global.security.SecurityUtils;
 import org.bf.pointservice.application.dto.PointBalanceResponse;
 import org.bf.pointservice.application.dto.PointTransactionResponse;
@@ -9,17 +8,16 @@ import org.bf.pointservice.application.query.PointQueryService;
 import org.bf.pointservice.domain.entity.badge.Badge;
 import org.bf.pointservice.domain.entity.point.PointBalance;
 import org.bf.pointservice.domain.entity.point.PointTransaction;
-import org.bf.pointservice.domain.exception.badge.BadgeErrorCode;
-import org.bf.pointservice.domain.repository.badge.BadgeRepository;
 import org.bf.pointservice.domain.repository.point.PointBalanceRepository;
 import org.bf.pointservice.domain.repository.point.PointTransactionRepository;
+import org.bf.pointservice.domain.service.BadgePolicyService;
 import org.bf.pointservice.domain.service.BadgeUpdateService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -29,7 +27,7 @@ public class PointQueryServiceImpl implements PointQueryService {
 
     private final SecurityUtils securityUtils;
     private final PointBalanceRepository pointBalanceRepository;
-    private final BadgeRepository badgeRepository;
+    private final BadgePolicyService badgePolicyService;
     private final PointTransactionRepository pointTransactionRepository;
     private final BadgeUpdateService badgeUpdateService;
 
@@ -40,21 +38,22 @@ public class PointQueryServiceImpl implements PointQueryService {
     public PointBalanceResponse getCurrentBalance() {
         UUID currentUserId = securityUtils.getCurrentUserId();
 
-        Optional<PointBalance> optionalBalance = pointBalanceRepository.findByUserIdAndDeletedAtIsNull(currentUserId);
+        PointBalance pointBalance = pointBalanceRepository.findByUserIdAndDeletedAtIsNull(currentUserId)
+                .orElseGet(() -> null);
 
-        if (optionalBalance.isEmpty()) {
-            // 엔티티가 없는 경우, DTO를 '잔액 0' 상태로 직접 구성하여 반환
+        if (pointBalance == null) {
             return PointBalanceResponse.fromZeroPointUser(currentUserId);
         }
 
-        PointBalance pointBalance = optionalBalance.get();
+        // 시스템 정책 버전 확인 (Caffeine 로컬 캐시 조회 - DB I/O 없음)
+        Long latestVersion = badgePolicyService.getLastestVersion();
 
-        // 누적 포인트에 따른 할당 뱃지 lazy-update
-        badgeUpdateService.updateBadge(pointBalance);
+        // 버전 비교: 유저의 버전이 최신과 다를 때만 뱃지 판정 및 업데이트 로직 실행
+        if (!Objects.equals(pointBalance.getBadgeVersion(), latestVersion)) {
+            badgeUpdateService.updateBadge(pointBalance);
+        }
 
-        // 업데이트한 뱃지 정보 조회
-        Badge badge = badgeRepository.findByBadgeIdAndDeletedAtIsNull(pointBalance.getCurrentBadgeId())
-                .orElseThrow(() -> new CustomException(BadgeErrorCode.BADGE_NOT_FOUND));
+        Badge badge = badgePolicyService.getBadgeFromCache(pointBalance.getCurrentBadgeId());
 
         return PointBalanceResponse.from(pointBalance, badge);
     }

@@ -32,25 +32,22 @@ public class PointGainServiceImpl implements PointGainService {
     @Override
     public void gainPoints(UUID userId, int points, String sourceTable, UUID sourceId) {
         PointBalance pointBalance = getOrCreateBalance(userId);
-        log.info("current points for user {}, points {}", userId, pointBalance.getCurrentBalance());
 
         // 포인트 획득 (현재 잔액, 누적 포인트 업데이트)
         pointBalance.gainPoints(points);
-        log.info("gain points for user {}, points {}", userId, pointBalance.getCurrentBalance());
 
         // 사용자 뱃지 업데이트
         badgeUpdateService.updateBadge(pointBalance);
 
         // 사용자 포인트 거래 내역 기록
         logHistory(userId, points, sourceTable, sourceId, pointBalance.getCurrentBalance());
-        log.info("거래 내역 기록");
     }
 
     /**
      * 유저의 포인트 계정 반환 (아직 없을 경우 생성)
      * */
     private PointBalance getOrCreateBalance(UUID userId) {
-        return pointBalanceRepository.findByUserIdAndDeletedAtIsNull(userId)
+        return pointBalanceRepository.findByUserIdForUpdate(userId)
                 .orElseGet(() -> {
                     PointBalance newBalance = PointBalance.builder().userId(userId).build();
                     return pointBalanceRepository.save(newBalance);
