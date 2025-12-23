@@ -87,7 +87,7 @@ public class PointCancellationServiceImpl implements PointCancellationService {
      * 거래 내역의 userId로 해당 유저의 현재 잔액 확인
      * */
     private PointBalance findBalance(UUID userId) {
-        return pointBalanceRepository.findByUserIdAndDeletedAtIsNull(userId).orElseThrow(
+        return pointBalanceRepository.findByUserIdForUpdate(userId).orElseThrow(
                 () -> new CustomException(PointBalanceErrorCode.POINT_BALANCE_NOT_FOUND)
         );
     }

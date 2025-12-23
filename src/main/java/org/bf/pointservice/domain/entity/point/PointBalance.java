@@ -39,6 +39,8 @@ public class PointBalance extends Auditable {
 
     private UUID currentBadgeId;
 
+    private Long badgeVersion = 0L;
+
     @Builder
     public PointBalance(UUID userId) {
         this.userId = userId;
@@ -98,5 +100,12 @@ public class PointBalance extends Auditable {
         if (badgeId != null && !Objects.equals(this.currentBadgeId, badgeId)) {
             this.currentBadgeId = badgeId;
         }
+    }
+
+    /**
+     * 뱃지 버전 업데이트
+     * */
+    public void updateBadgeVersion(Long badgeVersion) {
+        this.badgeVersion = badgeVersion;
     }
 }

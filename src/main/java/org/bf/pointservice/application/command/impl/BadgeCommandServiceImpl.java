@@ -11,6 +11,7 @@ import org.bf.pointservice.application.dto.BadgeUpdateRequest;
 import org.bf.pointservice.domain.entity.badge.Badge;
 import org.bf.pointservice.domain.exception.badge.BadgeErrorCode;
 import org.bf.pointservice.domain.repository.badge.BadgeRepository;
+import org.bf.pointservice.domain.service.BadgePolicyService;
 import org.bf.pointservice.domain.service.CheckPointGap;
 import org.bf.pointservice.domain.service.ImageUploader;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class BadgeCommandServiceImpl implements BadgeCommandService {
     private final CheckPointGap checkPointGap;
     private final SecurityUtils securityUtils;
     private final ImageUploader imageUploader;
+    private final BadgePolicyService badgePolicyService;
 
     /**
      * 신규 뱃지 생성
@@ -50,6 +52,7 @@ public class BadgeCommandServiceImpl implements BadgeCommandService {
                 .checkPointGap(checkPointGap)
                 .build();
         badgeRepository.save(badge);
+        badgePolicyService.updateVersion();
         return BadgeResponse.from(badge);
     }
 
@@ -73,6 +76,7 @@ public class BadgeCommandServiceImpl implements BadgeCommandService {
         if (request.minPoint() != null && !request.minPoint().equals(badge.getMinPoint())) {
             badge.updateMinPoint(request.minPoint(), checkPointGap);
         }
+        badgePolicyService.updateVersion();
         return BadgeResponse.from(badge);
     }
 
@@ -86,5 +90,6 @@ public class BadgeCommandServiceImpl implements BadgeCommandService {
                 () -> new CustomException(BadgeErrorCode.BADGE_NOT_FOUND)
         );
         badge.softDelete(securityUtils.getCurrentUsername());
+        badgePolicyService.updateVersion();
     }
 }
