@@ -28,7 +28,7 @@ public class PointUseServiceImpl implements PointUseService {
      * */
     @Override
     public void usePoints(UUID userId, int points, String sourceTable, UUID sourceId) {
-        PointBalance pointBalance = pointBalanceRepository.findByUserIdAndDeletedAtIsNull(userId).orElseThrow(() -> new CustomException(PointBalanceErrorCode.POINT_BALANCE_NOT_FOUND));
+        PointBalance pointBalance = pointBalanceRepository.findByUserIdForUpdate(userId).orElseThrow(() -> new CustomException(PointBalanceErrorCode.POINT_BALANCE_NOT_FOUND));
 
         // 포인트 사용
         pointBalance.usePoints(points);
